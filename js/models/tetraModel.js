@@ -1,0 +1,1 @@
+var tetraModel = {pointsArray: [$w.threed.makeA3DPoint(9.9853,9.9853,9.9853),$w.threed.makeA3DPoint(9.9853,9.9853,-9.9853),$w.threed.makeA3DPoint(0.14684,-9.9853,0),$w.threed.makeA3DPoint(-9.9853,9.9853,9.9853),$w.threed.makeA3DPoint(-9.9853,9.9853,-9.9853)],facesArray:[[0,3,2],[1,2,4],[0,2,1],[3,4,2],[0,1,4,3]]}

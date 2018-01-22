@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'vector_battleregular';
+    src: url('../fonts/vectorb-webfont.woff2') format('woff2'),
+         url('../fonts/vectorb-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    font-family: 'vector_battleregular';
+    color: #1BDD1B;
+    background: #000;
+}
+#gui,#game {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+}
+canvas {
+    padding: 0;
+    margin: 0;
+    max-width: 100% !important;
+}
