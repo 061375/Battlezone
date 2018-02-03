@@ -10,7 +10,7 @@ body {
     color: #1BDD1B;
     background: #000;
 }
-#gui,#game {
+.game-containers div  {
     position: absolute;
     left: 0px;
     top: 0px;

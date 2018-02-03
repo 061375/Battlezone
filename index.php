@@ -13,26 +13,25 @@ if(isset($_GET['dev']))$dev = strtotime('now');
     <link href="css/style.css?<?php echo $dev; ?>" rel="stylesheet" />
 </head>
 <body>
-<div id="gui"></div>
-<div id="game"></div>
+    <div class="game-containers">
+        <div id="dev"></div>
+        <div id="gui"></div>
+        <div id="game"></div>
+        <div id="horizon"></div>
+    </div>
 <script src="js/wes.mantooth.js?<?php echo $dev; ?>"></script>
 <?php
-    // load pre-rendered 3D models
-    $dir = 'js/models/';
-    $models = scandir('js/models/');
-    foreach($models as $model) {
-        if($model === '.' || $model === '..') {continue;}
-        echo '<script src="'.$dir.$model.'?'.$dev.'"></script>'."\n";
+    loadsscripts('js/models/');
+    loadsscripts('js/');
+    function loadsscripts($dir) {
+        global $dev;
+        // load files
+        $files = scandir($dir);
+        foreach($files as $file) {
+            if($file == 'wes.mantooth.js' || (strpos($file,'.js') === false)) {continue;}
+            echo '<script src="'.$dir.$file.'?'.$dev.'"></script>'."\n";
+        }   
     }
 ?>
-<script src="js/config.js?<?php echo $dev; ?>"></script>
-<script src="js/player.js?<?php echo $dev; ?>"></script>
-<script src="js/enemytank.js?<?php echo $dev; ?>"></script>
-<script src="js/ufo.js?<?php echo $dev; ?>"></script>
-<script src="js/missle.js?<?php echo $dev; ?>"></script>
-<script src="js/mapitems.js?<?php echo $dev; ?>"></script>
-<script src="js/volcano.js?<?php echo $dev; ?>"></script>
-<script src="js/gui.js?<?php echo $dev; ?>"></script>
-<script src="js/game.js?<?php echo $dev; ?>"></script>
 </body>
 </html>
