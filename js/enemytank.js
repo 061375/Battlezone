@@ -11,6 +11,7 @@ var Tank = function(o) {
     this.y = o.y;
     this.z = 30;
     this.axis = $w.threed.makeA3DPoint(0,0,0);
+    this.turnspeed = (TANKTURNSPEED/1000);
     this.camera = $w.objects.Camera[0];
     
 }
@@ -25,4 +26,29 @@ Tank.prototype.loop = function() {
     if (!$w.collision.checkCircle(this.camera.view.x,this.camera.view.y,(this.camera.focalLength/2),this.x,this.y,this.size)) {
         this.camera.draw(this.model,this.x,this.y,this.z,this.axis,10,GREEN,1);
     }
+}
+Tank.prototype.patrol = function() {
+    
+}
+Tank.prototype.patrolrotate = function(dir) {
+    if(dir) {
+         this.axis.y += this.turnspeed;
+    }else{
+         this.axis.y -= this.turnspeed;
+    }
+}
+Tank.prototype.evade = function() {
+    
+}
+Tank.prototype.chase = function() {
+    
+}
+Tank.prototype.shoot = function() {
+    
+}
+Tank.prototype.obstacle = function() {
+    
+}
+Tank.prototype.die = function() {
+    
 }
