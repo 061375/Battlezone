@@ -15,11 +15,6 @@ var Mountains = function(o) {
     
 }
 Mountains.prototype.loop = function() {
-    if (DEVMODE) {
-              $w.objects.Dev[0].x = this.x;
-              $w.objects.Dev[0].y = this.y;
-              $w.objects.Dev[0].r = this.size;
-    }
     if (!$w.collision.checkCircle(this.camera.view.x,this.camera.view.y,(this.camera.focalLength/2),this.x,this.y,this.size)) {
         this.camera.draw(this.model,this.x,this.y,this.z,this.axis,this.size,GREEN,1,1000);
     }
