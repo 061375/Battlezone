@@ -14,5 +14,4 @@ const W = window.innerWidth,
       LINEHEIGHTH1 = 30,
       LINEHEIGHTH2 = 20,
       TANKSPEED = 5,
-      TANKTURNSPEED = 3,
-      DEVMODE = true;
+      TANKTURNSPEED = 3;
