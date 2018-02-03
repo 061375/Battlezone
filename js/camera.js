@@ -53,10 +53,6 @@ var Camera = function(o){
 
        if(undefined === forceDis) {
               vaxis.y += angle;
-       }else{
-              //if((Math.sin(cr+angle) * radius) < 0)return;
-              //console.log(Math.cos(cr));
-              //if ((dy-dx) > 0)return;
        }
        z = scaleRatio * size;
        
