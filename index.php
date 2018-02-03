@@ -1,7 +1,6 @@
 <?php
 // if in dev mode the files will be fresh loads
-$dev = '';
-if(isset($_GET['dev']))$dev = strtotime('now');
+$dev = isset($_GET['dev']) ? strtotime('now') : false;
 ?>
 <!DOCTYPE html>
 
@@ -11,6 +10,10 @@ if(isset($_GET['dev']))$dev = strtotime('now');
     <meta name="description" content="Remake of the 1980 original tank game from Atari built in Javascript using the Wes Mantooth Game Engine" />
     <meta name="keywords" content="battlezone,classic,arcade,game,tank,battle,3d,war,alien,atari,jeremy,aaron,heminger,wes mantooth,javascript,programming,free" />
     <link href="css/style.css?<?php echo $dev; ?>" rel="stylesheet" />
+    <?php
+    if(false !== $dev) {$devmode = 'true';}else{$devmode='false';}
+    ?>
+    <script>const DEVMODE = <?php echo $devmode; ?></script>
 </head>
 <body>
     <div class="game-containers">
