@@ -1,12 +1,11 @@
 /**
- *
+ * Enemy Tank
  * */
 var Tank = function(o) {
     this.i = o.i;
     this.model = tankModel;
     this.size = 5;
-    //this.x = Math.random() * W;
-    //this.y = Math.random() * H;
+
     this.x = o.x;
     this.y = o.y;
     this.z = 30;
@@ -30,10 +29,16 @@ var Tank = function(o) {
         y:null,
         size:400
     }
+    // place the tank in the game
+    // turn off to use the setting from the init
+    this.put();
 }
+/**
+ * the loop
+ * @returns {Void}
+ * */
 Tank.prototype.loop = function() {
-    //this.dir+=this.turnspeed;
-    
+
     if (DEVMODE) {
         $w.objects.Dev[2].x = this.x;
         $w.objects.Dev[2].y = this.y;
@@ -43,8 +48,8 @@ Tank.prototype.loop = function() {
         $w.objects.Dev[3].r = this.view.size;
     }
     
+    // what are we doing
     this.patrolmodeset();
-    
     switch(this.mode) {
         case 'patrol':
             this.patrol();
@@ -62,24 +67,36 @@ Tank.prototype.loop = function() {
             this.evade(this.playerdir);
             break;
     }
-
+    
+    // make sure the direction is within the cartesian grid
     if (this.dir > 360) this.dir -= 360;
     if (this.dir < 0) this.dir += 360;
+    
+    // make sure the tank is in the game
     let xy = stayinsidegame(this.i,this.x,this.y);
     this.x = xy.x;
     this.y = xy.y;
     
+    // handle the model direction rendering quirk
+    // @todo - WTF
     this.axis.y = (this.dir-180) / 58;
-
+    
+    // set where the tanks eyes are
     this.viewPosition();
     
+    // check if the tank can see the player
     if (!$w.collision.checkCircle(this.view.x,this.view.y,this.view.size,Player.getX(),Player.getY(),5)) {
         this.playerdir = $w.motion.point_direction(this.x,this.y,Player.getX(),Player.getY(),false,-90);
     }
+    // check if the camera can see me
     if (!$w.collision.checkCircle(this.camera.view.x,this.camera.view.y,(this.camera.focalLength/2),this.x,this.y,this.size)) {
         this.camera.draw(this.model,this.x,this.y,this.z,this.axis,10,GREEN,1);
     }
 }
+/**
+ * wander around looking for the player
+ * @returns {Void}
+ * */
 Tank.prototype.patrol = function() {
     this.turncounter++;
     if (this.turncounter > this.turntarget) {
@@ -94,6 +111,10 @@ Tank.prototype.patrol = function() {
     }
     this.move();
 }
+/**
+ * just rotate until it sees the player
+ * @returns {Void}
+ * */
 Tank.prototype.patrolrotate = function(dir) {
     if(dir) {
          this.dir += this.turnspeed;
@@ -101,7 +122,13 @@ Tank.prototype.patrolrotate = function(dir) {
          this.dir -= this.turnspeed;
     }
 }
+/**
+ * evade the player
+ * @todo - there is much to be done here to make this more difficult for the player
+ * @returns {Void}
+ * */
 Tank.prototype.evade = function(targetAngle) {
+    // evading might include simply turning away from the enemy
     let move = Math.random() * 1000;
     if (move > 500) {
         move = true;
@@ -110,16 +137,29 @@ Tank.prototype.evade = function(targetAngle) {
     }
     this.chase(targetAngle,move,true);
 }
+/**
+ * logic to track the player
+ * @param {Number}
+ * @param {Boolean}
+ * @param {Boolean}
+ * @returns {Void}
+ * */
 Tank.prototype.chase = function(targetAngle,move,evade) {
+    
     if (undefined === move) move = false;
     if (undefined === evade) evade = false;
+    
     var dir = this.dir;
+    
+    // run away!!!
     if(!evade)targetAngle = -targetAngle;
+    
     Devlog.log('dir',dir);
     Devlog.log('targetAngle',targetAngle);
+    
     var adiff = dir - targetAngle;
     if (Math.abs(adiff) > 180) {
-        if (this.dir > targetAngle) {
+        if (dir > targetAngle) {
             adiff = -1 * ((360 - dir) + targetAngle);
         }else{
             adiff = (360 - targetAngle) + dir;
@@ -135,25 +175,53 @@ Tank.prototype.chase = function(targetAngle,move,evade) {
     {
         this.dir += this.turnspeed;
     }
+    //
     if(move)this.move();
 }
+/**
+ * logic to shoot 
+ * @todo
+ * @returns {Void}
+ * */
 Tank.prototype.shoot = function() {
     
 }
+/**
+ * logic to get around an obstacle
+ * @todo 
+ * @returns {Void}
+ * */
 Tank.prototype.obstacle = function() {
     
 }
+/**
+ * death even
+ * @todo 
+ * @returns {Void}
+ * */
 Tank.prototype.die = function() {
     
 }
+/**
+ * move the tank
+ * @todo - add reverse
+ * @returns {Void}
+ * */
 Tank.prototype.move = function() {
     this.x+=Math.sin($w.math.radians(this.dir))*this.speed;
     this.y+=Math.cos($w.math.radians(this.dir))*this.speed;  
 }
+/**
+ * the logic that determines the tanks actions
+ * @returns {Void}
+ * */
 Tank.prototype.patrolmodeset = function() {
+    // increment a counter to decide when to chnage actions
     this.actioncounter++;
     if (this.actioncounter > this.actiontarget) {
+        // reset
         this.actioncounter = 0;
+        // if the tank can see the player then attack or evade
         if (this.playerdir != null) {
             this.actiontarget = 1000+Math.random() * 1000;
             let a = Math.random() * 1000;
@@ -170,6 +238,8 @@ Tank.prototype.patrolmodeset = function() {
                 Devlog.log('patrolmodeset','EVADE');
             }
         }else{
+            // if the tank cannot see player then patrol
+            
             Devlog.log('patrolmodeset','PATROL');
             
             this.actiontarget = 200+Math.random() * 300;
@@ -181,11 +251,30 @@ Tank.prototype.patrolmodeset = function() {
             this.patroldir = true;
             if ((Math.random() * 1000) > 500)this.patroldir = false;
         }
+        // when an action chnages assume the tank cannot see the player until it can
         this.playerdir = null;
     }
 }
+/**
+ * the tank has a simple collision bubble as its eyes
+ * @returns {Void}
+ * */
 Tank.prototype.viewPosition = function() {
     let a = $w.math.radians(this.dir);
         this.view.x = this.x + Math.sin(a)*(this.view.size+5);
         this.view.y = this.y + Math.cos(a)*(this.view.size+5);
+}
+/**
+ * place the enemy tank in a random spot (somewhere within visual range)
+ * however NOT necessarily looking at the player and NOT on TOP of the player
+ * @returns {Void}
+ * */
+Tank.prototype.put = function() {
+    let x = Player.getX();
+    let y = Player.getY();
+    let d = Math.random() * 360;
+    let p = 20 + Math.random() * this.view.size;
+    this.dir = Math.random() * 360;
+    this.x = x + Math.sin($w.math.radians(d)) * p;
+    this.y = y + Math.cos($w.math.radians(d)) * p;  
 }

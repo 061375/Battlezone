@@ -7,27 +7,8 @@ var Player = (function(){
     var init = function() {
        d = 180;
        x = (W/2);
-       y = H-50;
+       y = (H/2);
 
-       /* I need to rebuild the key binding...so for this game at least I am not using Wes Mantooth
-       $w.game.bindkeys({
-           ArrowLeft:Player.Aleft
-       },"keydown",document);
-       $w.game.bindkeys({
-           ArrowRight:Player.Aright
-       },"keydown",document);
-       $w.game.bindkeys({
-           ArrowUp:Player.Aup
-       },"keydown",document);
-       $w.game.bindkeys({
-           ArrowDown:Player.Adown
-       },"keydown",document);
-       $w.game.bindkeys({
-           KeyA:Player.Aa
-       },"keydown",document);
-       $w.game.bindkeys({
-           KeyD:Player.Ad
-       },"keydown",document);*/
        document.addEventListener("keydown",function(evt){
               if(events.indexOf(evt.key) == -1)events.push(evt.key);       
        });
@@ -60,11 +41,6 @@ var Player = (function(){
        let xy = stayinsidegame(1,x,y);
        x = xy.x;
        y = xy.y;
-       /*
-       if (x > W) x = 0;
-       if (x < 1) x = W;
-       if (y > H) y = 0;
-       if (y < 0) y = H;*/
    }
    /**
     * Aleft
@@ -118,6 +94,9 @@ var Player = (function(){
        console.log('SHOOT !!!');
        return o;
    }
+   
+   // GETTERS
+   
    var getX = function() {
        return x;
    }
@@ -127,7 +106,8 @@ var Player = (function(){
    var getD = function() {
        return d;
    }
-    return {
+   
+   return {
         init:init,
         loop:loop,
         ArrowLeft:ArrowLeft,
