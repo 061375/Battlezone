@@ -13,5 +13,5 @@ const W = window.innerWidth,
       FONTH3 = '15px',
       LINEHEIGHTH1 = 30,
       LINEHEIGHTH2 = 20,
-      TANKSPEED = 5,
-      TANKTURNSPEED = 3;
+      TANKSPEED = 0.2,
+      TANKTURNSPEED = 0.1;

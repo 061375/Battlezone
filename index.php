@@ -16,6 +16,7 @@ $dev = isset($_GET['dev']) ? strtotime('now') : false;
     <script>const DEVMODE = <?php echo $devmode; ?></script>
 </head>
 <body>
+    <?php if(false !== $dev) { ?><pre id="dev-window"></pre><?php } ?>
     <div class="game-containers">
         <div id="dev"></div>
         <div id="gui"></div>

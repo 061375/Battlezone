@@ -7,7 +7,7 @@ var Player = (function(){
     var init = function() {
        d = 180;
        x = (W/2);
-       y = (H/3);
+       y = H-50;
 
        /* I need to rebuild the key binding...so for this game at least I am not using Wes Mantooth
        $w.game.bindkeys({
@@ -39,7 +39,7 @@ var Player = (function(){
                      }
               }
        });
-       setInterval(function(){Player.loop()},100);
+       setInterval(function(){Player.loop()},1);
     }
     /**
     * loop
@@ -56,11 +56,15 @@ var Player = (function(){
        y = o.y;
        if (d > 360) d = 0;
        if (d < 0) d = 360;
-       
+
+       let xy = stayinsidegame(1,x,y);
+       x = xy.x;
+       y = xy.y;
+       /*
        if (x > W) x = 0;
        if (x < 1) x = W;
        if (y > H) y = 0;
-       if (y < 0) y = H;
+       if (y < 0) y = H;*/
    }
    /**
     * Aleft

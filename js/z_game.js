@@ -30,7 +30,34 @@ window.onload = () => {
         document.getElementById('game'),
         W,H
     );
-    
+
+    $w.add_object_single(
+        1,
+        Tank,{
+            x:(W/2),
+            y:100
+        },
+        i,
+        W,H
+    );
+    $w.add_object_single(
+        5,
+        Tetra,{},
+        i,
+        W,H
+    );
+    $w.add_object_single(
+        5,
+        Cube,{},
+        i,
+        W,H
+    );
+    $w.add_object_single(
+        3,
+        Platform,{},
+        i,
+        W,H
+    );
     $w.add_object_single(
         1,
         Mountains,{
@@ -100,33 +127,6 @@ window.onload = () => {
             zz:0,
             d:0
         },
-        i,
-        W,H
-    );
-    $w.add_object_single(
-        1,
-        Tank,{
-            x:100,
-            y:300
-        },
-        i,
-        W,H
-    );
-    $w.add_object_single(
-        5,
-        Tetra,{},
-        i,
-        W,H
-    );
-    $w.add_object_single(
-        5,
-        Cube,{},
-        i,
-        W,H
-    );
-    $w.add_object_single(
-        3,
-        Platform,{},
         i,
         W,H
     );
