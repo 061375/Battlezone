@@ -1,3 +1,16 @@
+/**
+ *
+ * Helpers
+ *
+ * */
+
+/**
+ * @param {Number} canvas ID
+ * @param {Number}
+ * @param {Number}
+ *
+ * @returns {Number}
+ * */
 function stayinsidegame(i,x,y) {
     var re = {x:x,y:y}
     switch($w.collision.insideCanvas(i,x,y)) {

@@ -3,10 +3,15 @@ var Dev = function(o) {
     this.x = o.x;
     this.y = o.y;
     this.r = o.r;
+    this.d = null;
     this.mode = o.mode;
     this.polya = o.polya;
     this.color = GREEN;
 }
+/**
+ * the loop
+ * @returns {Void}
+ * */
 Dev.prototype.loop = function() {
     switch(this.mode) {
         case 'poly':
@@ -16,13 +21,50 @@ Dev.prototype.loop = function() {
             this.circle();
     }
 }
+/**
+ * displays a circle on the stage
+ * @returns {Void}
+ * */
 Dev.prototype.circle = function() {
     $w.canvas.circle(this.i,this.x,this.y,this.r,this.color,0.5);
 }
+/**
+ * displays a polygon on the stage
+ * @returns {Void}
+ * */
 Dev.prototype.poly = function() {
-    $w.canvas.polygon(this.i,this.polya,this.color,'fill',this.color,0.5);
+    // loop the polygon and calculate the points
+    let l = this.polya.length;
+    for(let i=0; i<l; i++) {
+        this.polya[i] = this.calcPoint(this.x,this.polya[i][0],this.y,this.polya[i][1],this.d,20,i);
+    }
+    // draw the polygon
+    $w.canvas.polygon(this.i,this.polya,this.color);
+    
 }
+/**
+* calcPoint
+* @param {Number} 
+* @param {Number}
+* @param {Number}
+* @returns {Array} [x,y]
+* */
+Dev.prototype.calcPoint = function(x,x2,y,y2,d,r,i){
+    
+    let a = $w.math.degrees(Math.atan2((y - (y + y2)),(x - (x + x2))));
+    let a2 = (a - d);
 
+    Devlog.log('a'+i,a);
+    Devlog.log('a2'+i,a2);
+    
+    a+=a2;
+    a = $w.math.radians(a2);
+
+    x += Math.cos(a)*r;
+    y += Math.sin(a)*r;
+    
+    return [x,y];
+}
 /**
  * if DEVMODE this logs various variables to the screen
  * */
