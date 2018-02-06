@@ -24,10 +24,17 @@ var Player = (function(){
               for(let i=0; i<l; i++) {
                      if (undefined !== code[evt.keyCode])
                             if (events[i] == code[evt.keyCode]) {
+                                   if (typeof Player[events[i]+'KeyUp'] === 'function')
+                                          Player[events[i]+'KeyUp']();
+                            
                                    events.splice(i,1);
                             }
               }
        });
+       
+       // tank engine idle
+       //EngineIdle();
+       
        setInterval(function(){Player.loop()},1);
     }
     /**
@@ -77,9 +84,17 @@ var Player = (function(){
     * @returns {Void}
     * */
    var ArrowUp = function(o) {
+       Engine();
        o.x+=Math.sin($w.math.radians(o.d))*TANKSPEED;
        o.y+=Math.cos($w.math.radians(o.d))*TANKSPEED;
        return o;
+   }
+   /**
+    * ArrowUpKeyUp
+    * @returns {Void}
+    * */
+   var ArrowUpKeyUp = function() {
+       EngineIdle();
    }
    /**
     * Adown
@@ -88,9 +103,17 @@ var Player = (function(){
     * @returns {Void}
     * */
    var ArrowDown = function(o) {
+       Engine();
        o.x-=Math.sin($w.math.radians(o.d))*TANKSPEED;
        o.y-=Math.cos($w.math.radians(o.d))*TANKSPEED;
        return o;
+   }
+   /**
+    * ArrowDownKeyUp
+    * @returns {Void}
+    * */
+   var ArrowDownKeyUp = function() {
+       EngineIdle();   
    }
    /**
     * Aa
@@ -118,6 +141,28 @@ var Player = (function(){
        return o;
    }
    
+   // ENGINE SOUNDS
+   
+   /**
+    * plays when the engine is reved up
+    * */
+   var Engine = function() {
+       $w.assets.audio.engineidle.loop = false;
+       $w.assets.audio.engineidle.pause();
+       $w.assets.audio.engine.loop = true;
+       $w.assets.audio.engine.play();
+   }
+   /**
+    * plays when the engine is idle
+    * */
+   var EngineIdle = function() {
+       $w.assets.audio.engineidle.loop = true;
+       $w.assets.audio.engineidle.play();
+       $w.assets.audio.engine.loop = false;
+       $w.assets.audio.engine.pause();    
+   }
+   
+   
    // GETTERS
    
    var getX = function() {
@@ -141,7 +186,9 @@ var Player = (function(){
         ArrowLeft:ArrowLeft,
         ArrowRight:ArrowRight,
         ArrowUp:ArrowUp,
+        ArrowUpKeyUp:ArrowUpKeyUp,
         ArrowDown:ArrowDown,
+        ArrowDownKeyUp:ArrowDownKeyUp,
         KeySpace:KeySpace,
         getX:getX,
         getY:getY,

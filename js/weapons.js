@@ -15,6 +15,8 @@ var Bullet = function(o) {
     this.speed = 5;
     this.axis = $w.threed.makeA3DPoint(80,(this.dir-90) / 58,0);
     this.camera = $w.objects.Camera[0];
+    
+    $w.assets.audio.shoot.play();
 }
 Bullet.prototype.loop = function() {
     

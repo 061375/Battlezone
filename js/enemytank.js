@@ -34,6 +34,8 @@ var Tank = function(o) {
     // turn off to use the setting from the init
     this.put();
     
+    $w.assets.audio.alert.play();
+    
     // REMOVE ME
     // testing explosion
     //this.extimer = 0;
@@ -349,6 +351,8 @@ var TankExplosion = function(o) {
         y:null,
         size:400
     }
+    
+    $w.assets.audio.boom.play();
 }
 TankExplosion.prototype.loop = function() {
     this.z -= this.explforce;
