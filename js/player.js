@@ -2,22 +2,30 @@ var Player = (function(){
     
     'use strict';
     
-    var d,x,y,events = [];
+    var d,x,y,events = [],canfire = true, code = {};
     
     var init = function() {
        d = 180;
-       x = (W/2);
-       y = (H/2);
-
+       x = (STAGESIZE/2);
+       y = (STAGESIZE/2);
+       code[32] = 'KeySpace';
+       code[38] = 'ArrowUp';
+       code[40] = 'ArrowDown';
+       code[37] = 'ArrowLeft';
+       code[39] = 'ArrowRight';
        document.addEventListener("keydown",function(evt){
-              if(events.indexOf(evt.key) == -1)events.push(evt.key);       
+              if(events.indexOf(evt.key) == -1) {
+                     if (undefined !== code[evt.keyCode]) 
+                            events.push(code[evt.keyCode]);
+              }
        });
        document.addEventListener("keyup",function(evt){
               var l = events.length;
               for(let i=0; i<l; i++) {
-                     if (events[i] == evt.key) {
-                            events.splice(i,1);
-                     }
+                     if (undefined !== code[evt.keyCode])
+                            if (events[i] == code[evt.keyCode]) {
+                                   events.splice(i,1);
+                            }
               }
        });
        setInterval(function(){Player.loop()},1);
@@ -90,8 +98,23 @@ var Player = (function(){
     * @param {Object} this
     * @returns {Void}
     * */
-   var a = function(o) {
-       console.log('SHOOT !!!');
+   var KeySpace = function(o) {
+       if (canfire) {
+              canfire = false;
+              $w.add_object_single(
+                     1,
+                     Bullet,{
+                         x:o.x,
+                         y:o.y,
+                         zz:0,
+                         d:o.d,
+                         p:this
+                     },
+                     2,
+                     W,H
+              );
+              console.log('SHOOT !!!');
+       }
        return o;
    }
    
@@ -107,6 +130,11 @@ var Player = (function(){
        return d;
    }
    
+   // Setters
+   
+   var setCanFire = function(b) {
+       canfire = b;
+   }
    return {
         init:init,
         loop:loop,
@@ -114,9 +142,10 @@ var Player = (function(){
         ArrowRight:ArrowRight,
         ArrowUp:ArrowUp,
         ArrowDown:ArrowDown,
-        a:a,
+        KeySpace:KeySpace,
         getX:getX,
         getY:getY,
-        getD:getD
+        getD:getD,
+        setCanFire:setCanFire
     }
 }());

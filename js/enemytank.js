@@ -3,8 +3,9 @@
  * */
 var Tank = function(o) {
     this.i = o.i;
+    this.j = o.z;
     this.model = tankModel;
-    this.size = 5;
+    this.size = 15;
 
     this.x = o.x;
     this.y = o.y;
@@ -215,7 +216,7 @@ Tank.prototype.obstacle = function() {
  * @todo 
  * @returns {Void}
  * */
-Tank.prototype.die = function() {
+Tank.prototype.destroy = function() {
     console.log('BOOM!!!!!');
     
     $w.add_object_single(
@@ -231,6 +232,8 @@ Tank.prototype.die = function() {
         this.i,
         W,H
     );
+    tankisdead(this.i);
+    $w.kill_player('Tank',this.j);
 }
 /**
  * move the tank

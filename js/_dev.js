@@ -3,6 +3,7 @@ var Dev = function(o) {
     this.x = o.x;
     this.y = o.y;
     this.r = o.r;
+    this.j = o.z;
     this.d = null;
     this.mode = o.mode;
     this.polya = o.polya;
@@ -64,6 +65,9 @@ Dev.prototype.calcPoint = function(x,x2,y,y2,d,r,i){
     y += Math.sin(a)*r;
     
     return [x,y];
+}
+Dev.prototype.destroy = function() {
+    $w.kill_player('Dev',this.j);
 }
 /**
  * if DEVMODE this logs various variables to the screen

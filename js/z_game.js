@@ -33,10 +33,7 @@ window.onload = () => {
 
     $w.add_object_single(
         1,
-        Tank,{
-            x:(W/2),
-            y:100
-        },
+        Tank,{},
         i,
         W,H
     );
@@ -74,7 +71,7 @@ window.onload = () => {
         1,
         Mountains,{
             m:2,
-            x:W+100,
+            x:STAGESIZE+100,
             y:-100,
             zz:0,
             d:0
@@ -86,8 +83,8 @@ window.onload = () => {
         1,
         Mountains,{
             m:3,
-            x:W+100,
-            y:H+100,
+            x:STAGESIZE+100,
+            y:STAGESIZE+100,
             zz:0,
             d:0
         },
@@ -99,7 +96,7 @@ window.onload = () => {
         Mountains,{
             m:3,
             x:-100,
-            y:H+100,
+            y:STAGESIZE+100,
             zz:0,
             d:0
         },
@@ -110,7 +107,7 @@ window.onload = () => {
         1,
         Mountains,{
             m:3,
-            x:(W/2),
+            x:(STAGESIZE/2),
             y:-300,
             zz:0,
             d:0
@@ -122,26 +119,13 @@ window.onload = () => {
         1,
         Mountains,{
             m:3,
-            x:(W/2),
-            y:(H+300),
+            x:(STAGESIZE/2),
+            y:(STAGESIZE+300),
             zz:0,
             d:0
         },
         i,
         W,H
     );
-    /*
-    $w.add_object_single(
-        4,
-        TankExplosion,{
-            x:(W/2),
-            y:(H/2)-200,
-            zz:0,
-            d:0,
-            m:1
-        },
-        i,
-        W,H
-    );*/
     $w.loop(true,i);
 }
