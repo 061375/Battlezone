@@ -33,7 +33,7 @@ var Player = (function(){
        });
        
        // tank engine idle
-       //EngineIdle();
+       EngineIdle();
        
        setInterval(function(){Player.loop()},1);
     }
@@ -147,6 +147,7 @@ var Player = (function(){
     * plays when the engine is reved up
     * */
    var Engine = function() {
+       if (!SOUNDON) return;
        $w.assets.audio.engineidle.loop = false;
        $w.assets.audio.engineidle.pause();
        $w.assets.audio.engine.loop = true;
@@ -156,6 +157,7 @@ var Player = (function(){
     * plays when the engine is idle
     * */
    var EngineIdle = function() {
+       if (!SOUNDON) return;
        $w.assets.audio.engineidle.loop = true;
        $w.assets.audio.engineidle.play();
        $w.assets.audio.engine.loop = false;

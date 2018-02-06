@@ -15,4 +15,5 @@ const W = window.innerWidth,
       LINEHEIGHTH1 = 30,
       LINEHEIGHTH2 = 20,
       TANKSPEED = 0.2,
-      TANKTURNSPEED = 0.1;
+      TANKTURNSPEED = 0.1,
+      SOUNDON = true;

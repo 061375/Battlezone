@@ -34,11 +34,8 @@ var Tank = function(o) {
     // turn off to use the setting from the init
     this.put();
     
-    $w.assets.audio.alert.play();
+    if (SOUNDON)$w.assets.audio.alert.play();
     
-    // REMOVE ME
-    // testing explosion
-    //this.extimer = 0;
 }
 /**
  * the loop
@@ -46,14 +43,7 @@ var Tank = function(o) {
  * */
 Tank.prototype.loop = function() {
     
-    // REMOVE ME
-    /*
-    this.extimer++;
-    if (this.extimer > 1000) {
-        this.die();
-        this.extimer = 0;
-    }
-    */
+
     if (DEVMODE) {
         $w.objects.Dev[2].x = this.x;
         $w.objects.Dev[2].y = this.y;
@@ -352,7 +342,7 @@ var TankExplosion = function(o) {
         size:400
     }
     
-    $w.assets.audio.boom.play();
+    if (SOUNDON)$w.assets.audio.boom.play();
 }
 TankExplosion.prototype.loop = function() {
     this.z -= this.explforce;

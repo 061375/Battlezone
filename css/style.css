@@ -33,7 +33,6 @@ canvas {
     top: 0;
     right: 0;
     width: 200px;
-    height: 300px;
     overflow: auto;
     background: #fff;
     z-index: 999999999;

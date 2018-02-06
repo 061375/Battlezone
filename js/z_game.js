@@ -23,6 +23,7 @@ window.onload = () => {
                 W,H
             );
             $w.loop(true,j);
+            document.getElementById('dev-window').style.height = (H-30)+'px';
         }
         
         // initialize the GUI
