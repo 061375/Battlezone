@@ -130,5 +130,18 @@ window.onload = () => {
         i,
         W,H
     );
+    /*
+    $w.add_object_single(
+        4,
+        TankExplosion,{
+            x:(W/2),
+            y:(H/2)-200,
+            zz:0,
+            d:0,
+            m:1
+        },
+        i,
+        W,H
+    );*/
     $w.loop(true,i);
 }
