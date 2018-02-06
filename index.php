@@ -1,4 +1,14 @@
 <?php
+/*********************************************
+ *
+ *
+ *  Battlezone - Javascript Remake
+ *  @author Jeremy Heminger <contact@jeremyheminger.com>
+ *
+ *
+ *
+ *  */
+
 // if in dev mode the files will be fresh loads
 $dev = isset($_GET['dev']) ? strtotime('now') : false;
 ?>
