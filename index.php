@@ -20,7 +20,7 @@ $dev = isset($_GET['dev']) ? strtotime('now') : false;
         <meta name="description" property="og:description" content="Remake of the 1980 original tank game from Atari built in Javascript using the Wes Mantooth Game Engine" />
         <meta name="keywords" content="battlezone,classic,arcade,game,tank,battle,3d,war,alien,atari,jeremy,aaron,heminger,wes mantooth,javascript,programming,free" />
         <meta property="og:title" content="Classic Battlezone in Javascript | Jeremy Aaron Heminger" />
-        <meta property="og:image" content="images/og-screen.jpg" />
+        <meta property="og:image" content="http://demo.jeremyheminger.com/Battlezone/images/og-screen.jpg" />
         <link href="css/style.css?<?php echo $dev; ?>" rel="stylesheet" />
         <?php
         if(false !== $dev) {$devmode = 'true';}else{$devmode='false';}
