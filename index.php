@@ -49,5 +49,15 @@ $dev = isset($_GET['dev']) ? strtotime('now') : false;
             }   
         }
     ?>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97910559-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-97910559-1');
+    </script>
+
     </body>
 </html>
