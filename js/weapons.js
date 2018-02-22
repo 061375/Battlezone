@@ -12,7 +12,7 @@ var Bullet = function(o) {
     this.y = o.y;
     this.z = o.zz;
     this.dir = o.d;
-    this.speed = 3;
+    this.speed = 4;
     this.axis = $w.threed.makeA3DPoint(80,(this.dir-90) / 58,0);
     this.camera = $w.objects.Camera[0];
     
@@ -34,7 +34,7 @@ Bullet.prototype.loop = function() {
     if(!insidegame(this.x,this.y)){
         this.checkCollision();
     }else{
-        this.destroy(false);
+        this.destroy(true);
     }
     
     // check if the camera can see me
@@ -69,11 +69,11 @@ Bullet.prototype.checkCollision = function() {
 }
 /**
  * destroy the bullet
- * @param {Boolean}
+ * @param {Boolean} if true the bullet with be removed passively else it will produce a sound and animation
  * */
-Bullet.prototype.destroy = function(boom) {
+Bullet.prototype.destroy = function(passive) {
     // boom is false then don't make a sound ... a total miss of anything
-    if (undefined === boom || boom) {
+    if (undefined === passive || !passive) {
         if (SOUNDON) $w.assets.audio.boom2.play();
     }
     this.p.setCanFire(true);

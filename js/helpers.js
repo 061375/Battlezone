@@ -113,3 +113,17 @@ function lookingat(d,r,w,x,y,x2,y2) {
     //$w.canvas.polygon(2,[[x,y],[x3,y3],[x4,y4]],'#e2ff00','fill');
     return $w.collision.inside([x2,y2],[[x,y],[x3,y3],[x4,y4]]);
 }
+function helperSound() {
+    console.log(SOUNDON);
+    if (SOUNDON) {
+        SOUNDON = false;
+        $w.assets.audio.engineidle.loop = false;
+        $w.assets.audio.engineidle.pause();
+        $w.assets.audio.engine.loop = false;
+        $w.assets.audio.engine.play();
+    }else{
+        SOUNDON = true;
+        $w.assets.audio.engineidle.loop = true;
+        $w.assets.audio.engineidle.pause();
+    }
+}

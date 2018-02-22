@@ -34,6 +34,12 @@ window.onload = () => {
         Horizon.draw();
         
         Player.init();
+        
+        // map non-game keyboard elements
+        $w.game.bindkeys({
+            KeyS:helperSound
+        },"keyup");
+        
         // add a game canvas and add the camera object to it 
         let i = $w.add_object_single(
             1,
