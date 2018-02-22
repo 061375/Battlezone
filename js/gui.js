@@ -31,10 +31,10 @@ var GUI = (function(){
         $w.canvas.text(i,W - (W/4),50+LINEHEIGHTH1,'high score '+pad(score,4),'fill',FONTH3+' '+FONT,RED);
     }
     var gameover = function() {
-        $w.canvas.text(i,(W/2)-100,(H/4),'game over','fill',FONTH1+' '+FONT,GREEN);
-        $w.canvas.text(i,(W/3),(H/4)+(LINEHEIGHTH1*3),'PRESS ENTER TO START A NEW GAME','fill',FONTH1+' '+FONT,GREEN);
-        $w.canvas.text(i,(W/2)-210,(H/2)+(LINEHEIGHTH1*8),'jeremy heminger 2018','fill',FONTH1+' '+FONT,GREEN);
-        $w.canvas.text(i,(W/2)-210,(H/2)+(LINEHEIGHTH1*10),'original atari 1980','fill',FONTH1+' '+FONT,GREEN);
+        center(((H/4)-20),'game over',FONTH1);
+        center(((H/4)-20)+(LINEHEIGHTH1*3),'PRESS ENTER TO START A NEW GAME',FONTH1);
+        center((H/2)+(LINEHEIGHTH1*8),'jeremy heminger 2018',FONTH1);
+        center((H/2)+(LINEHEIGHTH1*10),'original atari 1980',FONTH1);
     }
     var retical = function() {
         var color;
@@ -58,6 +58,11 @@ var GUI = (function(){
         $w.canvas.line(i,(W/2)-80,(H/3)+220,(W/2)+80,(H/3)+220,color,2);
     }
     
+    var center = function(t,s,h) {
+        h = h.replace('px','');
+        let l = (W/2) - (Math.floor(s.length / 3) * h);
+        $w.canvas.text(i,l,t,s,'fill',FONTH1+' '+FONT,GREEN);    
+    }
     var pad = function(num, size){
         return ('000000000' + num).substr(-size);
     }

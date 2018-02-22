@@ -21,6 +21,7 @@ var Tank = function(o) {
     this.turntarget = 0;
     this.turnspeed = TANKTURNSPEED;
     this.speed = TANKSPEED;
+    this.canfire = true;
     
     this.playerdir = null;
     
@@ -193,7 +194,22 @@ Tank.prototype.chase = function(targetAngle,move,evade) {
  * @returns {Void}
  * */
 Tank.prototype.shoot = function() {
-    
+    if (this.canfire) {
+        this.canfire = false;
+        $w.add_object_single(
+               1,
+               Bullet,{
+                   x:this.x,
+                   y:this.y,
+                   zz:0,
+                   d:this.dir,
+                   p:this
+               },
+               2,
+               W,H
+        );
+        console.log('TANK SHOOT !!!');
+    }   
 }
 /**
  * logic to get around an obstacle
@@ -250,15 +266,15 @@ Tank.prototype.patrolmodeset = function() {
         if (this.playerdir != null) {
             this.actiontarget = 1000+Math.random() * 1000;
             let a = Math.random() * 1000;
-            if (a < 500) {
+            if (a < 800) {
                 this.mode = 'lookchase';
                 Devlog.log('patrolmodeset','LOOK CHASE');
             }
-            if (a >= 500 && a < 800) {
+            if (a >= 800 && a < 900) {
                 this.mode = 'chase';
                 Devlog.log('patrolmodeset','CHASE');
             }
-            if (a >= 800) {
+            if (a >= 900) {
                 this.mode = 'evade';
                 Devlog.log('patrolmodeset','EVADE');
             }
@@ -279,6 +295,13 @@ Tank.prototype.patrolmodeset = function() {
         // when an action chnages assume the tank cannot see the player until it can
         this.playerdir = null;
     }
+    /*
+    if (lookingat(this.dir,this.view.size,8,this.x,this.y,Player.getX(),Player.getY())) {
+        Devlog.log('tank has a shot','true');       
+        if (Math.random() * 100 > 60) {
+            this.shoot();
+        }
+    }*/
 }
 /**
  * the tank has a simple collision bubble as its eyes
@@ -303,7 +326,9 @@ Tank.prototype.put = function() {
     this.x = x + Math.sin($w.math.radians(d)) * p;
     this.y = y + Math.cos($w.math.radians(d)) * p;  
 }
-
+Tank.prototype.setCanFire  = function(b) {
+    this.canfire = true;
+}
 
 
 

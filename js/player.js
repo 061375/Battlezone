@@ -56,6 +56,22 @@ var Player = (function(){
        let xy = stayinsidegame(1,x,y);
        x = xy.x;
        y = xy.y;
+       
+       let hastarget = false;
+       l = $w.objects.Tank.length;
+       for(let t=0; t<l;t++) {
+            if ($w.objects.Tank[t] != null) {
+                if (lookingat(d,500,5,x,y,$w.objects.Tank[t].x,$w.objects.Tank[t].y)) {
+                    hastarget = true;
+                }
+            }
+       }
+       if (hastarget) {
+            Devlog.log('I SEE YOU');
+            GUI.set_hastarget(true);
+       }else{
+            GUI.set_hastarget(false);
+       }
    }
    /**
     * Aleft

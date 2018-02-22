@@ -79,3 +79,37 @@ function tankisdead(i,t) {
         );
     },t);
 }
+/**
+ * @param {Number}
+ * @param {Number}
+ * @param {Number}
+ * @param {Number}
+ * @param {Number}
+ * @param {Number}
+ * @param {Number}
+ * @param {Number}
+ * @returns {Boolean}
+ * */
+function lookingat(d,r,w,x,y,x2,y2) {
+
+    let dd = d-w;
+    if (dd < 0) dd += 360;
+    let angle = $w.math.radians(dd);
+    let x3 = x + Math.sin(angle) * r;
+    let y3 = y + Math.cos(angle) * r;
+    dd = d+w;
+    if (dd > 360) dd -= 360;
+    angle = $w.math.radians(dd);
+    let x4 = x + Math.sin(angle) * r;
+    let y4 = y + Math.cos(angle) * r;
+    Devlog.log('lookingat x',x);
+    Devlog.log('lookingat y',y);
+    Devlog.log('lookingat x2',x2);
+    Devlog.log('lookingat y2',y2);
+    Devlog.log('lookingat x3',x3);
+    Devlog.log('lookingat y3',y3);
+    Devlog.log('lookingat x4',x4);
+    Devlog.log('lookingat y4',y4);
+    //$w.canvas.polygon(2,[[x,y],[x3,y3],[x4,y4]],'#e2ff00','fill');
+    return $w.collision.inside([x2,y2],[[x,y],[x3,y3],[x4,y4]]);
+}
