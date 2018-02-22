@@ -2,7 +2,7 @@ var Player = (function(){
     
     'use strict';
     
-    var d,x,y,events = [],canfire = true, code = {};
+    var d,x,y,events = [],canfire = true, code = {}, size = 10;
     
     var init = function() {
        d = 180;
@@ -67,10 +67,11 @@ var Player = (function(){
             }
        }
        if (hastarget) {
-            Devlog.log('I SEE YOU');
+            Devlog.log('playeraimingattank','true');
             GUI.set_hastarget(true);
        }else{
             GUI.set_hastarget(false);
+            Devlog.log('playeraimingattank','false');
        }
    }
    /**
@@ -147,7 +148,8 @@ var Player = (function(){
                          y:o.y,
                          zz:0,
                          d:o.d,
-                         p:this
+                         p:this,
+                         isplayer:true
                      },
                      2,
                      W,H
@@ -192,7 +194,9 @@ var Player = (function(){
    var getD = function() {
        return d;
    }
-   
+   var getSize = function() {
+        return size;
+   }
    // Setters
    
    var setCanFire = function(b) {
@@ -211,6 +215,7 @@ var Player = (function(){
         getX:getX,
         getY:getY,
         getD:getD,
-        setCanFire:setCanFire
+        setCanFire:setCanFire,
+        getSize:getSize
     }
 }());

@@ -203,7 +203,8 @@ Tank.prototype.shoot = function() {
                    y:this.y,
                    zz:0,
                    d:this.dir,
-                   p:this
+                   p:this,
+                   istank:true
                },
                2,
                W,H
@@ -295,13 +296,15 @@ Tank.prototype.patrolmodeset = function() {
         // when an action chnages assume the tank cannot see the player until it can
         this.playerdir = null;
     }
-    /*
-    if (lookingat(this.dir,this.view.size,8,this.x,this.y,Player.getX(),Player.getY())) {
-        Devlog.log('tank has a shot','true');       
-        if (Math.random() * 100 > 60) {
+    
+    if (lookingat(this.dir,this.view.size*2,4,this.x,this.y,Player.getX(),Player.getY())) {
+        Devlog.log('tankhasashot','true');       
+        if (Math.random() * 1000 > 900) {
             this.shoot();
         }
-    }*/
+    }else{
+        Devlog.log('tankhasashot','false');  
+    }
 }
 /**
  * the tank has a simple collision bubble as its eyes
@@ -321,7 +324,7 @@ Tank.prototype.put = function() {
     let x = Player.getX();
     let y = Player.getY();
     let d = Math.random() * 360;
-    let p = 20 + Math.random() * this.view.size;
+    let p = 250 + Math.random() * this.view.size;
     this.dir = Math.random() * 360;
     this.x = x + Math.sin($w.math.radians(d)) * p;
     this.y = y + Math.cos($w.math.radians(d)) * p;  
