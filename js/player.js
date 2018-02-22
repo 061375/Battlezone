@@ -61,7 +61,7 @@ var Player = (function(){
        l = $w.objects.Tank.length;
        for(let t=0; t<l;t++) {
             if ($w.objects.Tank[t] != null) {
-                if (lookingat(d,500,5,x,y,$w.objects.Tank[t].x,$w.objects.Tank[t].y)) {
+                if (lookingat(d,1000,5,x,y,$w.objects.Tank[t].x,$w.objects.Tank[t].y)) {
                     hastarget = true;
                 }
             }

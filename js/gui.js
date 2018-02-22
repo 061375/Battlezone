@@ -12,18 +12,33 @@ var GUI = (function(){
     
     var hastarget = false;
     
+    // var holds a prerender of the radar lines for the animation
+    var radar_l = [];
+    var radar_t = 0;
+    var radar_size = 80;
+    
     var i;
     
     var init = function() {
         i = $w.canvas.init(document.getElementById('gui'));
         $w.canvas.zIndex(i,9999);
+        
+        for(let r=0; r<=360; r++) {
+            let rr = $w.math.radians(r);
+            let xy = [];
+            xy[0] = (W/2) + Math.cos(rr) * radar_size;
+            xy[1] = 100 + Math.sin(rr) * radar_size;
+            radar_l.push(xy);
+        }
         loop();
     }
     var loop = function() {
         $w.canvas.clear(i);
         if (b_gameover) gameover();
         if (b_showscore) showscore();
+        radar();
         retical();
+        
         setTimeout(function(){loop();},100);
     }
     var showscore = function() {
@@ -57,7 +72,33 @@ var GUI = (function(){
         $w.canvas.line(i,(W/2),(H/3)+220,(W/2),(H/3)+300,color,2);
         $w.canvas.line(i,(W/2)-80,(H/3)+220,(W/2)+80,(H/3)+220,color,2);
     }
-    
+    var radar = function() {
+        $w.canvas.line(i,(W/2),100,radar_l[225][0],radar_l[225][1],RED);
+        $w.canvas.line(i,(W/2),100,radar_l[315][0],radar_l[315][1],RED);
+        $w.canvas.line(i,(W/2),100,radar_l[radar_t][0],radar_l[radar_t][1],RED);
+        radar_t+=10;
+        if (radar_t > 360) radar_t = 0;
+        
+        if (undefined !== $w.objects.Tank) {
+            let l = $w.objects.Tank.length;
+            for(let t=0;t<l;t++) {
+                if ($w.objects.Tank[t] != null) {
+                    let td = Math.floor($w.motion.point_direction(Player.getX(),Player.getY(),$w.objects.Tank[t].x,$w.objects.Tank[t].y,false,Player.getD()));
+                    td = -td;
+                    if (td > 360) td -= 360;
+                    if (td < 0) td += 360;
+                    td = $w.math.radians(td);
+             
+                    let dis = $w.motion.distance_to_point(Player.getX(),Player.getY(),$w.objects.Tank[t].x,$w.objects.Tank[t].y) / 20;
+                    
+                    let x = (W/2) + Math.cos(td) * dis;
+                    let y = 100 + Math.sin(td) * dis;
+                    $w.canvas.circle(i,x,y,3,RED,1);
+                }
+            }
+        }
+        $w.canvas.circle(i,(W/2),100,radar_size,RED,1,true); 
+    }
     var center = function(t,s,h) {
         h = h.replace('px','');
         let l = (W/2) - (Math.floor(s.length / 3) * h);
