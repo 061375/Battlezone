@@ -45,7 +45,7 @@ $dev = isset($_GET['dev']) ? strtotime('now') : false;
             $files = scandir($dir);
             foreach($files as $file) {
                 if($file == 'wes.mantooth.js' || (strpos($file,'.js') === false)) {continue;}
-                echo '<script src="'.$dir.$file.'?'.$dev.'&v=1.1.1"></script>'."\n";
+                echo '<script src="'.$dir.$file.'?'.$dev.'&v=1.1.2"></script>'."\n";
             }   
         }
     ?>

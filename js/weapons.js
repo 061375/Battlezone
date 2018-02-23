@@ -75,7 +75,89 @@ Bullet.prototype.destroy = function(passive) {
     // boom is false then don't make a sound ... a total miss of anything
     if (undefined === passive || !passive) {
         if (SOUNDON) $w.assets.audio.boom2.play();
+        $w.add_object_single(
+            10,
+            BulletExplosion,{
+                x:this.x,
+                y:this.y,
+                zz:this.z,
+                d:this.dir,
+                m:1,
+                j:0
+            },
+            this.i,
+            W,H
+        );
     }
     this.p.setCanFire(true);
     $w.kill_player('Bullet',this.j);
+}
+
+
+// --------------------------------------   BEGIN BULLET EXPLOSION -------------------
+
+var BulletExplosion = function(o) {
+
+    this.i = o.i;
+    this.j = o.z;
+
+    this.model = cubeModel;
+    
+    this.explforce = 4 +  Math.random() * 3;
+    this.expdir = Math.random() * 360;
+    this.spinspeed = 0.01 + Math.random() * 0.2;
+    this.xspeed = (Math.random() * 4) - 2;
+    this.yspeed = (Math.random() * 4) - 2;
+    this.gravity = 0.1;
+    this.friction = 0.01;
+    
+    this.timer = 0;
+    this.maxtime = 200;
+    
+    this.initexpl = true;
+    
+    this.size = 0.1;
+    this.x = o.x;
+    this.y = o.y;
+    this.z = o.zz;
+    this.d = o.d;
+    this.axis = $w.threed.makeA3DPoint(0,o.d,0);
+    this.camera = $w.objects.Camera[0];
+    this.view = {
+        x:null,
+        y:null,
+        size:400
+    }
+    
+    if (SOUNDON)$w.assets.audio.boom.play();
+}
+BulletExplosion.prototype.loop = function() {
+    this.z -= this.explforce;
+    this.explforce -= this.gravity;
+    this.axis.x += this.spinspeed;
+    this.axis.y += this.spinspeed;
+    this.axis.z += this.spinspeed;
+    if(this.spinspeed > 0)this.spinspeed -= this.friction;
+    
+    this.x += this.xspeed;
+    this.y += this.yspeed;
+    if (this.initexpl) {
+        this.initexpl = false;
+    }else{
+        if (this.z > 20) {
+            this.explforce = Math.abs(this.explforce) / 2;
+        }
+    }
+    this.timer++;
+    if (this.timer >= this.maxtime) {
+        this.timer = 0;
+        this.destroy();    
+    }
+    // check if the camera can see me
+    if (!$w.collision.checkCircle(this.camera.view.x,this.camera.view.y,(this.camera.focalLength/2),this.x,this.y,this.size)) {
+        this.camera.draw(this.model,this.x,this.y,this.z,this.axis,this.size,GREEN,1);
+    }
+}
+BulletExplosion.prototype.destroy = function() {
+    $w.kill_player('BulletExplosion',this.j);
 }
