@@ -16,4 +16,5 @@ const W = window.innerWidth,
       LINEHEIGHTH2 = 20,
       TANKSPEED = 0.2,
       TANKTURNSPEED = 0.1;
-var SOUNDON = true; 
+var SOUNDON = false;
+var GAMEOVER = true;

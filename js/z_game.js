@@ -39,7 +39,10 @@ window.onload = () => {
         $w.game.bindkeys({
             KeyS:helperSound
         },"keyup");
-        
+        // map non-game keyboard elements
+        $w.game.bindkeys({
+            Enter:helperStartGame
+        },"keyup");
         // add a game canvas and add the camera object to it 
         let i = $w.add_object_single(
             1,
@@ -48,12 +51,6 @@ window.onload = () => {
             W,H
         );
     
-        $w.add_object_single(
-            1,
-            Tank,{},
-            i,
-            W,H
-        );
         $w.add_object_single(
             5,
             Tetra,{},

@@ -114,7 +114,6 @@ function lookingat(d,r,w,x,y,x2,y2) {
     return $w.collision.inside([x2,y2],[[x,y],[x3,y3],[x4,y4]]);
 }
 function helperSound() {
-    console.log(SOUNDON);
     if (SOUNDON) {
         SOUNDON = false;
         $w.assets.audio.engineidle.loop = false;
@@ -126,4 +125,9 @@ function helperSound() {
         $w.assets.audio.engineidle.loop = true;
         $w.assets.audio.engineidle.pause();
     }
+}
+function helperStartGame() {
+    console.log('got here');
+    if (GAMEOVER)
+        GUI.set_gameover(false);
 }

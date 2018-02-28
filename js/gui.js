@@ -108,9 +108,19 @@ var GUI = (function(){
         return ('000000000' + num).substr(-size);
     }
     
+    var init_game = function() {
+        $w.add_object_single(
+            1,
+            Tank,{},
+            i,
+            W,H
+        );    
+    }
     // --- Setters
     var set_gameover = function(b) {
         b_gameover = b;
+        GAMEOVER = b;
+        if (!b) init_game();
     }
     var set_hastarget = function(b) {
         hastarget = b;

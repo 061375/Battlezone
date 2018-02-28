@@ -43,9 +43,15 @@ var Player = (function(){
     * */
    var loop = function() {
        let l = events.length, o = {d:d,x:x,y:y};
-       for(let i=0; i<l; i++) {
-              if (typeof Player[events[i]] === 'function') 
-                     o = Player[events[i]](o);
+       if (!GAMEOVER) {
+              // check for key inputs
+              for(let i=0; i<l; i++) {
+                     if (typeof Player[events[i]] === 'function') 
+                            o = Player[events[i]](o);
+              }
+       }else{
+              // run simulation
+              o = PlayerSimulation.loop(o);
        }
        d = o.d;
        x = o.x;
@@ -58,13 +64,15 @@ var Player = (function(){
        y = xy.y;
        
        let hastarget = false;
-       l = $w.objects.Tank.length;
-       for(let t=0; t<l;t++) {
-            if ($w.objects.Tank[t] != null) {
-                if (lookingat(d,1000,5,x,y,$w.objects.Tank[t].x,$w.objects.Tank[t].y)) {
-                    hastarget = true;
-                }
-            }
+       if (undefined !== $w.objects.Tank) {
+              l = $w.objects.Tank.length;
+              for(let t=0; t<l;t++) {
+                   if ($w.objects.Tank[t] != null) {
+                       if (lookingat(d,1000,5,x,y,$w.objects.Tank[t].x,$w.objects.Tank[t].y)) {
+                           hastarget = true;
+                       }
+                   }
+              }
        }
        if (hastarget) {
             Devlog.log('playeraimingattank','true');
@@ -218,4 +226,53 @@ var Player = (function(){
         setCanFire:setCanFire,
         getSize:getSize
     }
+}());
+
+var PlayerSimulation = (function(){
+    
+    'use strict';
+    
+    var kos=Math.floor(Math.random()*4),
+    i=0,
+    max = ((100) + Math.random() * 1000),
+    tspeed = TANKTURNSPEED / 2;
+    
+    var loop = function(o) {
+       i++;
+       if (i>max) {
+              // do something new
+              kos=Math.floor(Math.random()*4);
+              // reset
+              i = 0;
+              max = ((100) + Math.random() * 1000);
+       }
+       switch(kos) {
+              case 0:o = left(o);break;
+              case 1:o = right(o);break;
+              case 2:o = forward(o);break;
+              case 3:o = reverse(o);break;
+       }
+       return o;
+    }
+    var left = function(o) {
+       o.d-=tspeed;
+       return o;   
+    }
+    var right = function(o) {
+       o.d+=tspeed;
+       return o; 
+    }
+    var forward = function(o) {
+       o.x+=Math.sin($w.math.radians(o.d))*TANKSPEED;
+       o.y+=Math.cos($w.math.radians(o.d))*TANKSPEED;
+       return o;
+    }
+    var reverse = function(o) {
+       o.x-=Math.sin($w.math.radians(o.d))*TANKSPEED;
+       o.y-=Math.cos($w.math.radians(o.d))*TANKSPEED;
+       return o;
+    }
+       return {
+              loop:loop 
+       }
 }());
