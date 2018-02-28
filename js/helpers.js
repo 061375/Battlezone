@@ -113,7 +113,7 @@ function lookingat(d,r,w,x,y,x2,y2) {
     //$w.canvas.polygon(2,[[x,y],[x3,y3],[x4,y4]],'#e2ff00','fill');
     return $w.collision.inside([x2,y2],[[x,y],[x3,y3],[x4,y4]]);
 }
-function helperSound() {
+function helperSound(callback) {
     if (SOUNDON) {
         SOUNDON = false;
         $w.assets.audio.engineidle.loop = false;
@@ -123,11 +123,17 @@ function helperSound() {
     }else{
         SOUNDON = true;
         $w.assets.audio.engineidle.loop = true;
-        $w.assets.audio.engineidle.pause();
+        $w.assets.audio.engineidle.play();
+    }
+    if (typeof callback === 'function') {
+        callback();
     }
 }
 function helperStartGame() {
-    console.log('got here');
-    if (GAMEOVER)
-        GUI.set_gameover(false);
+    if (GAMEOVER) {
+        helperSound(function(){
+            GUI.set_gameover(false);
+        });
+        
+    }
 }
