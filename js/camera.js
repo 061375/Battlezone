@@ -31,6 +31,10 @@ var Camera = function(o){
     * @returns {Void}
     * */
    Camera.prototype.draw = function(model,x,y,z,axis,size,color,lineWidth,forceDis) {
+       if (!RENDERGAME) {
+              $w.canvas.clear(this.i);
+              return;
+       }
        var dis;
        if(undefined === forceDis) {
               dis = $w.motion.distance_to_point(x,y,this.x,this.y);
@@ -122,6 +126,10 @@ var Camera = function(o){
         return TransformedPointsArray;
     }
    Camera.prototype.loop = function() {
+       if (!RENDERGAME) {
+              $w.canvas.clear(this.i);
+              return;
+       }
        if (DEVMODE) {
               
               $w.objects.Dev[0].x = this.view.x;

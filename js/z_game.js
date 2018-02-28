@@ -39,9 +39,13 @@ window.onload = () => {
         $w.game.bindkeys({
             KeyS:helperSound
         },"keyup");
-        // map non-game keyboard elements
+        // map start game
         $w.game.bindkeys({
             Enter:helperStartGame
+        },"keyup");
+        // map start game
+        $w.game.bindkeys({
+            KeyI:helperShowInstructions
         },"keyup");
         // add a game canvas and add the camera object to it 
         let i = $w.add_object_single(

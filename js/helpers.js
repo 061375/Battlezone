@@ -137,3 +137,23 @@ function helperStartGame() {
         
     }
 }
+function helperShowInstructions() {
+    if (GAMEOVER) {
+        let b = GUI.get_showinstructions();
+        b = (b==true ? false : true);
+        GUI.set_showinstructions(b);
+        b = (b==true ? false : true);
+        helperSetShowHorizon(b);
+    }
+}
+function helperSetShowHorizon(b) {
+    SHOWHORIZON = b; 
+}
+function helperShowHorizon() {
+    let $h = document.getElementById('horizon');
+    if (SHOWHORIZON) {
+        $h.style.display = 'block';
+    }else{
+        $h.style.display = 'none';
+    }
+}

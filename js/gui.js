@@ -6,6 +6,10 @@ var GUI = (function(){
     
     var b_showscore = true;
     
+    var b_showHIscore = false;
+    
+    var b_showInstructions = false;
+    
     var score = 0;
     
     var highscore = 0;
@@ -34,11 +38,14 @@ var GUI = (function(){
     }
     var loop = function() {
         $w.canvas.clear(i);
-        if (b_gameover) gameover();
+        if (b_gameover &! b_showHIscore &! b_showInstructions) gameover();
+        if (b_gameover &! b_showHIscore && b_showInstructions) showinstructions();
         if (b_showscore) showscore();
-        radar();
-        retical();
-        
+        if (!b_gameover) {
+            radar();
+            retical();
+        }
+        helperShowHorizon();
         setTimeout(function(){loop();},100);
     }
     var showscore = function() {
@@ -46,10 +53,25 @@ var GUI = (function(){
         $w.canvas.text(i,W - (W/4),50+LINEHEIGHTH1,'high score '+pad(score,4),'fill',FONTH3+' '+FONT,RED);
     }
     var gameover = function() {
+        RENDERGAME = true;
         center(((H/4)-20),'game over',FONTH1);
         center(((H/4)-20)+(LINEHEIGHTH1*3),'PRESS ENTER TO START A NEW GAME',FONTH1);
+        center(((H/4)+40)+(LINEHEIGHTH1*3),'PRESS I FOR INSTRUCTIONS',FONTH1);
         center((H/2)+(LINEHEIGHTH1*8),'jeremy heminger 2018',FONTH1);
         center((H/2)+(LINEHEIGHTH1*10),'original atari 1980',FONTH1);
+    }
+    var showhighscores = function() {
+        RENDERGAME = false;
+    }
+    var showinstructions = function() {
+        center(((H/4)-20),'**** battlezone ****',FONTH1);
+        center(((H/4)-10)+(LINEHEIGHTH3*3),'the object of this game is simple.',FONTH3);
+        center(((H/4)+15)+(LINEHEIGHTH3*3),'kill them before they kill you.',FONTH3);
+        center(((H/4)+85)+(LINEHEIGHTH2*3),'controls',FONTH2);
+        center(((H/4)+130)+(LINEHEIGHTH2*3),'arrow keys = move',FONTH2);
+        center(((H/4)+180)+(LINEHEIGHTH2*3),'spacebar = shoot',FONTH2);
+        center(((H/4)+350),'press I to go back',FONTH1);
+        RENDERGAME = false;
     }
     var retical = function() {
         var color;
@@ -100,15 +122,16 @@ var GUI = (function(){
         $w.canvas.circle(i,(W/2),100,radar_size,RED,1,true); 
     }
     var center = function(t,s,h) {
-        h = h.replace('px','');
-        let l = (W/2) - (Math.floor(s.length / 3) * h);
-        $w.canvas.text(i,l,t,s,'fill',FONTH1+' '+FONT,GREEN);    
+        let hc = h.replace('px','');
+        let l = (W/2) - (Math.floor(s.length / 3) * hc);
+        $w.canvas.text(i,l,t,s,'fill',h+' '+FONT,GREEN);    
     }
     var pad = function(num, size){
         return ('000000000' + num).substr(-size);
     }
     
     var init_game = function() {
+        RENDERGAME = true;
         $w.add_object_single(
             1,
             Tank,{},
@@ -116,6 +139,14 @@ var GUI = (function(){
             W,H
         );    
     }
+    
+    
+    // --- Getters
+    var get_showinstructions = function() {
+        return b_showInstructions;
+    }
+    
+    
     // --- Setters
     var set_gameover = function(b) {
         b_gameover = b;
@@ -125,9 +156,15 @@ var GUI = (function(){
     var set_hastarget = function(b) {
         hastarget = b;
     }
+    var set_showinstructions = function(b) {
+        b_showInstructions = b;    
+    }
+    
     return {
         init:init,
         set_gameover:set_gameover,
-        set_hastarget:set_hastarget
+        set_hastarget:set_hastarget,
+        set_showinstructions:set_showinstructions,
+        get_showinstructions:get_showinstructions
     }
 }());
