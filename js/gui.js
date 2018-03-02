@@ -54,6 +54,7 @@ var GUI = (function(){
             showplayercount();
         }
         helperShowHorizon();
+        b_gameover = GAMEOVER;
         setTimeout(function(){loop();},100);
     }
     /**

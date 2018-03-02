@@ -102,6 +102,9 @@ Tank.prototype.loop = function() {
     if (!$w.collision.checkCircle(this.camera.view.x,this.camera.view.y,(this.camera.focalLength/2),this.x,this.y,this.size)) {
         this.camera.draw(this.model,this.x,this.y,this.z,this.axis,10,GREEN,1);
     }
+    if (GAMEOVER) {
+        this.destroy(true);
+    }
 }
 /**
  * wander around looking for the player
@@ -225,23 +228,26 @@ Tank.prototype.obstacle = function() {
  * @todo 
  * @returns {Void}
  * */
-Tank.prototype.destroy = function() {
-    console.log('BOOM!!!!!');
-    
-    $w.add_object_single(
-        10,
-        TankExplosion,{
-            x:this.x,
-            y:this.y,
-            zz:this.z,
-            d:this.dir,
-            m:1,
-            j:0
-        },
-        this.i,
-        W,H
-    );
-    tankisdead(this.i);
+Tank.prototype.destroy = function(passive) {
+    if (passive) {
+    }else{
+        console.log('BOOM!!!!!');
+        
+        $w.add_object_single(
+            10,
+            TankExplosion,{
+                x:this.x,
+                y:this.y,
+                zz:this.z,
+                d:this.dir,
+                m:1,
+                j:0
+            },
+            this.i,
+            W,H
+        );
+        tankisdead(this.i);
+    }
     $w.kill_player('Tank',this.j);
 }
 /**

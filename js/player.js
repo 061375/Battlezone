@@ -266,6 +266,11 @@ var Player = (function(){
    var setDead = function() {
         if(alive) {
             alive = false;
+            players--;
+            if (players < 1) {
+                players = MAXPLAYERS;
+                GAMEOVER = true;
+            }
             PlayerDead.init();
         }
    }
@@ -382,25 +387,51 @@ var PlayerDead = (function(){
         }
         //console.log(cracks);
     }
+    /**
+     * this is the loop
+     * @returns {Void}
+     * */
     var loop = function() {
+        // if we somehow get here and things haven't been initiated. do that now
         if(first) init();
+        
+        // shake the screen
         document.getElementById('game').style.left = ((Math.random() * 10) - 5)+'px';
         document.getElementById('game').style.top = ((Math.random() * 10) - 5)+'px';
+        
+        // get the current number of cracks
         let l = cracks.length;
+        // loop the cracks
         for(let j=0; j<l; j++) {;
+            // init a local x,y to hold before we add the new coord
             let x = cracks[j].x;
             let y = cracks[j].y;
+            // set a random whole number +/- 15 degrees
             cracks[j].dir += Math.floor(Math.random() * 30) - 15;
+            // make sure we are inside a 360 degree coord system
             if (cracks[j].dir > 360)cracks[j].dir -= 360;
             if (cracks[j].dir < 0)cracks[j].dir += 360;
+            
+            // move x,y to the new location and add the result to a temporary variable
             let tmp = $w.motion.motion_set(cracks[j].x,cracks[j].y,cracks[j].dir,(300 + Math.random() * 300));
             cracks[j].x = tmp[0];
             cracks[j].y = tmp[1];
+            
+            // logging for development purposes
             Devlog.log('crack X',x);
             Devlog.log('crack Y',y);
             Devlog.log('crack dir',cracks[j].dir);
+            
+            // draw the line
             $w.canvas.line(i,x,y,cracks[j].x,cracks[j].y,GREEN);
-            if ((Math.random() * 1000) > 995) {
+            
+            /***
+             *
+             *  this was the problem. I started at 600 aaaannnd...that was too low LOL
+             *
+             *  */
+            if ((Math.random() * 1000) > 995) { // roll the dice. if it hits > 99.5%
+                // add a new crack
                 cracks.push({
                     x:x,
                     y:y,
@@ -408,10 +439,13 @@ var PlayerDead = (function(){
                 });
             }
         }
+        // increment the loop count
         loopcount++;
+        // if at the loop maximum
         if (loopcount >= loopmax) {
+            // reset everything and set player is alive
             reset();
-            Player.setAlive();
+            Player.setAlive(); // the player will check if it's out of chnaces and end the game if neccessary
         }
     }
     var reset = function() {
