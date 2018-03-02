@@ -31,6 +31,7 @@ $dev = isset($_GET['dev']) ? strtotime('now') : false;
         <?php if(false !== $dev) { ?><pre id="dev-window"></pre><?php } ?>
         <div class="game-containers">
             <div id="dev"></div>
+            <div id="death"></div>
             <div id="gui"></div>
             <div id="game"></div>
             <div id="horizon"></div>

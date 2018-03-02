@@ -47,6 +47,7 @@ Bullet.prototype.loop = function() {
 Bullet.prototype.checkCollision = function() {
     if (!$w.collision.checkCircle(Player.getX(),Player.getY(),Player.getSize(),this.x,this.y,this.size) && !this.isplayer) {
         console.log('PLAYER HIT!!!!');
+        Player.setDead();
         this.destroy();
     }else{
         let l = 4;

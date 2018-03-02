@@ -194,7 +194,7 @@ Tank.prototype.chase = function(targetAngle,move,evade) {
  * @returns {Void}
  * */
 Tank.prototype.shoot = function() {
-    if (this.canfire) {
+    if (this.canfire && Player.getAlive()) {
         this.canfire = false;
         $w.add_object_single(
                1,
