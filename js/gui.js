@@ -10,10 +10,6 @@ var GUI = (function(){
     
     var b_showInstructions = false;
     
-    var score = 0;
-    
-    var highscore = 0;
-    
     var hastarget = false;
     
     // var holds a prerender of the radar lines for the animation
@@ -80,8 +76,9 @@ var GUI = (function(){
      * @returns {Void}
      * */
     var showscore = function() {
-        $w.canvas.text(i,W - (W/4),70,'score '+pad(score,4),'fill',FONTH1+' '+FONT,GREEN);
-        $w.canvas.text(i,W - (W/4),70+LINEHEIGHTH1,'high score '+pad(score,4),'fill',FONTH3+' '+FONT,RED);
+        //console.log('line 49 SCORE '+SCORE);
+        $w.canvas.text(i,W - (W/4),70,'score '+pad(SCORE,4),'fill',FONTH1+' '+FONT,GREEN);
+        $w.canvas.text(i,W - (W/4),70+LINEHEIGHTH1,'high score '+pad(HIGHSCORE,4),'fill',FONTH3+' '+FONT,RED);
     }
     /**
      * @returns {Void}
@@ -179,6 +176,7 @@ var GUI = (function(){
      * @returns {String}
      * */
     var pad = function(num, size){
+        Devlog.log('SCORE',num);
         return ('000000000' + num).substr(-size);
     }
     /**

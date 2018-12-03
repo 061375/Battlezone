@@ -36,7 +36,7 @@ var Tetra = function(o) {
     
 }
 Tetra.prototype.loop = function() {
-    if (DEVMODE) {
+    if (DEVMODE && $w.objects.Dev[this.j] != null) {
         $w.objects.Dev[this.j].x = this.x;
         $w.objects.Dev[this.j].y = this.y;
         $w.objects.Dev[this.j].r = this.size;
@@ -63,7 +63,7 @@ var Cube = function(o) {
     
 }
 Cube.prototype.loop = function() {
-    if (DEVMODE) {
+    if (DEVMODE && $w.objects.Dev[this.j] != null) {
         $w.objects.Dev[this.j].x = this.x;
         $w.objects.Dev[this.j].y = this.y;
         $w.objects.Dev[this.j].r = this.size;
@@ -88,7 +88,7 @@ var Platform = function(o) {
     
 }
 Platform.prototype.loop = function() {
-    if (DEVMODE) {
+    if (DEVMODE && $w.objects.Dev[this.j] != null) {
         $w.objects.Dev[this.j].x = this.x;
         $w.objects.Dev[this.j].y = this.y;
         $w.objects.Dev[this.j].r = this.size;

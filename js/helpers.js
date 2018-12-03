@@ -67,16 +67,17 @@ function insidegame(x,y) {
  * @param {Number} time until make a new tank
  * @returns {Void}
  * */
-function tankisdead(i,t) {
+function helperTankIsDead(i,t) {
     if (undefined === t)
         t = 2000+Math.random() * 5000;
     setTimeout(function() {
-        $w.add_object_single(
-            1,
-            Tank,{},
-            i,
-            W,H
-        );
+        if (!GAMEOVER) 
+            $w.add_object_single(
+                1,
+                Tank,{},
+                i,
+                W,H
+            );
     },t);
 }
 /**
@@ -155,5 +156,23 @@ function helperShowHorizon() {
         $h.style.display = 'block';
     }else{
         $h.style.display = 'none';
+    }
+}
+/**
+ * kill all NPCs on stage that have a destroy function
+ * this assumes that 'passive' is a standard
+ * @param {Boolean}
+ * @returns {Void}
+ * */
+function helperKillAll(b) {
+    for (let prop in $w.objects) {
+            if ($w.objects.hasOwnProperty(prop)) {
+                let l = $w.objects[prop].length;
+                for(let j = 0; j < l; j++) {
+                    if ($w.objects[prop][j] != null)
+                        if (typeof $w.objects[prop][j].destroy === 'function')
+                            $w.objects[prop][j].destroy(b);   
+                }
+            }
     }
 }

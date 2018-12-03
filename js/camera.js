@@ -131,15 +131,17 @@ var Camera = function(o){
               return;
        }
        if (DEVMODE) {
+              if($w.objects.Dev[0] != null) {
               
-              $w.objects.Dev[0].x = this.view.x;
-              $w.objects.Dev[0].y = this.view.y;
-              $w.objects.Dev[0].r = (this.focalLength/2);
-              $w.objects.Dev[0].color = RED;
-              $w.objects.Dev[1].x = Player.getX();
-              $w.objects.Dev[1].y = Player.getY();
-              $w.objects.Dev[1].r = 5;
-              $w.objects.Dev[1].color = GREEN;
+                     $w.objects.Dev[0].x = this.view.x;
+                     $w.objects.Dev[0].y = this.view.y;
+                     $w.objects.Dev[0].r = (this.focalLength/2);
+                     $w.objects.Dev[0].color = RED;
+                     $w.objects.Dev[1].x = Player.getX();
+                     $w.objects.Dev[1].y = Player.getY();
+                     $w.objects.Dev[1].r = 5;
+                     $w.objects.Dev[1].color = GREEN;
+              }
        }
        this.x = Player.getX();
        this.y = Player.getY();

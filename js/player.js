@@ -62,7 +62,7 @@ var Player = (function(){
               // run simulation
               o = PlayerSimulation.loop(o);
             }else{
-                PlayerDead.loop();
+              o = PlayerDead.loop(o);
             }
        }
        d = o.d;
@@ -81,7 +81,8 @@ var Player = (function(){
               for(let t=0; t<l;t++) {
                    if ($w.objects.Tank[t] != null) {
                        if (lookingat(d,1000,5,x,y,$w.objects.Tank[t].x,$w.objects.Tank[t].y)) {
-                           hastarget = true;
+                            $w.objects.Tank[t].setavoid();
+                            hastarget = true;
                        }
                    }
               }
@@ -391,7 +392,7 @@ var PlayerDead = (function(){
      * this is the loop
      * @returns {Void}
      * */
-    var loop = function() {
+    var loop = function(o) {
         // if we somehow get here and things haven't been initiated. do that now
         if(first) init();
         
@@ -445,14 +446,16 @@ var PlayerDead = (function(){
         if (loopcount >= loopmax) {
             // reset everything and set player is alive
             reset();
-            Player.setAlive(); // the player will check if it's out of chnaces and end the game if neccessary
         }
+        return o;
     }
     var reset = function() {
         loopcount = 0;
         $w.canvas.clear(i);
         document.getElementById('game').style.left = '0px';
         document.getElementById('game').style.top = '0px';
+        helperKillAll(true);
+        Player.setAlive(); // the player will check if it's out of chnaces and end the game if neccessary
     }
     return {
         init:init,

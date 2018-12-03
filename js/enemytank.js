@@ -20,12 +20,20 @@ var Tank = function(o) {
     this.turncounter = 0;
     this.turntarget = 0;
     this.turnspeed = TANKTURNSPEED;
-    this.speed = TANKSPEED;
+    
+    this.speeds = [TANKSPEED/2,TANKSPEED,TANKSPEED*2];
+    this.speed = this.speeds[1];
+    
     this.canfire = true;
     
     this.playerdir = null;
     
     this.camera = $w.objects.Camera[0];
+    
+    this.aggression = TANKAGGRESSION;
+    
+    TANKAGGRESSION++;
+    
     this.view = {
         x:null,
         y:null,
@@ -45,7 +53,7 @@ var Tank = function(o) {
 Tank.prototype.loop = function() {
     
 
-    if (DEVMODE) {
+    if (DEVMODE && $w.objects.Dev[2] != null) {
         $w.objects.Dev[2].x = this.x;
         $w.objects.Dev[2].y = this.y;
         $w.objects.Dev[2].r = this.size;
@@ -56,10 +64,12 @@ Tank.prototype.loop = function() {
         $w.objects.Dev[3].y = this.view.y;
         $w.objects.Dev[3].r = this.view.size;
     }
-    
+    Devlog.log('CURRENT TANK SPEED',this.speed);
     // what are we doing
     
     this.patrolmodeset();
+    Devlog.log('CURRENT TANK MODE',this.mode);
+    this.speed = this.speeds[1];
     switch(this.mode) {
         case 'patrol':
             this.patrol();
@@ -68,12 +78,14 @@ Tank.prototype.loop = function() {
             this.patrolrotate(this.patroldir);
             break;
         case 'chase':
+            this.speed = this.speeds[Math.floor(Math.random() * 3)];
             this.chase(this.playerdir,true);
             break;
         case 'lookchase':
             this.chase(this.playerdir,false);
             break;
         case 'evade':
+            this.speed = this.speeds[2];
             this.evade(this.playerdir);
             break;
     }
@@ -114,7 +126,7 @@ Tank.prototype.patrol = function() {
     this.turncounter++;
     if (this.turncounter > this.turntarget) {
         this.turncounter = 0;
-        this.turntarget = 200+Math.random() * 200;
+        this.turntarget = 200+Math.random() * (200 / this.aggression);
         this.targetdir = Math.floor(Math.random() * 360);
     }
     if (this.dir < this.targetdir) {
@@ -149,6 +161,10 @@ Tank.prototype.evade = function(targetAngle) {
         move = false;
     }
     this.chase(targetAngle,move,true);
+}
+Tank.prototype.setavoid = function() {
+    Devlog.log('SET TANK MODE','EVADE');
+    this.mode = 'evade';
 }
 /**
  * logic to track the player
@@ -232,6 +248,7 @@ Tank.prototype.destroy = function(passive) {
     if (passive) {
     }else{
         console.log('BOOM!!!!!');
+        SCORE += SCORETANK;
         
         $w.add_object_single(
             10,
@@ -246,8 +263,8 @@ Tank.prototype.destroy = function(passive) {
             this.i,
             W,H
         );
-        tankisdead(this.i);
     }
+    helperTankIsDead(this.i);
     $w.kill_player('Tank',this.j);
 }
 /**
@@ -266,12 +283,13 @@ Tank.prototype.move = function() {
 Tank.prototype.patrolmodeset = function() {
     // increment a counter to decide when to chnage actions
     this.actioncounter++;
+    console.log(this.actiontarget)
     if (this.actioncounter > this.actiontarget) {
         // reset
         this.actioncounter = 0;
         // if the tank can see the player then attack or evade
         if (this.playerdir != null) {
-            this.actiontarget = 1000+Math.random() * 1000;
+            this.actiontarget = 1000+Math.random() * (1000 / this.aggression);
             let a = Math.random() * 1000;
             if (a < 800) {
                 this.mode = 'lookchase';
