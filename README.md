@@ -1,5 +1,6 @@
 # Battlezone
-The 1980s classic vector game in Javascript
+The 1980s classic vector game in Javascript.
+Built using Wes Mantooth ( My game engine ) http://wesmantooth.jeremyheminger.com/
 
 For more information pease visit: http://jeremyheminger.com/article/programming-javascript-wes-mantooth-games/classic-battlezone-javascript
 
